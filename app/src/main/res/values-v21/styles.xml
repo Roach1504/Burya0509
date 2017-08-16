@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/barGrey</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:textColorPrimary">@color/textGray</item>
+        <item name="android:colorBackground">@color/gray</item>
+        <item name="android:textColorSecondaryInverse">@color/textGray</item>
+        <item name="android:statusBarColor">@color/textGray</item>
+        <item name="android:windowBackground">@color/barGrey</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorSecondary">@color/textGray</item>
+        <item name="android:navigationBarColor">@color/textGray</item>
+    </style>
+</resources>
