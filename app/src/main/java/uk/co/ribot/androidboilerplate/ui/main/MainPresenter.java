@@ -1,5 +1,7 @@
 package uk.co.ribot.androidboilerplate.ui.main;
 
+import android.util.Log;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,8 +13,10 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Talk;
 import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
+import uk.co.ribot.androidboilerplate.ui.login.LoginPresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
 
 @ConfigPersistent
@@ -60,9 +64,38 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                             getMvpView().showRibotsEmpty();
                         } else {
                             getMvpView().showRibots(ribots);
+                            loadTest("2");
                         }
                     }
                 });
+    }
+    public void loadTest(String page){
+        RxUtil.unsubscribe(mSubscription);
+        mSubscription = mDataManager.getExample(page)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<Talk>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "There was an error loading the ribots.");
+                        getMvpView().showError();
+                    }
+
+                    @Override
+                    public void onNext(List<Talk> ribots) {
+                        if (ribots.isEmpty()) {
+                            Log.e("TEST", "0000");
+
+                        } else {
+                            Log.e("TEST", ribots.get(0).getTalk().getName());
+                        }
+                    }
+                });
+
     }
 
 }

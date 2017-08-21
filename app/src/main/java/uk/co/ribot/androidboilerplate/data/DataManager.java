@@ -9,8 +9,11 @@ import rx.Observable;
 import rx.functions.Func1;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
+import uk.co.ribot.androidboilerplate.data.model.Example;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.Talk;
 import uk.co.ribot.androidboilerplate.data.model.Weather;
+import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
 
@@ -21,14 +24,16 @@ public class DataManager {
     private final DatabaseHelper mDatabaseHelper;
     private final PreferencesHelper mPreferencesHelper;
     private final WeatherService mWeatherService;
+    private final ExampleServise mExampleServise;
 
     @Inject
     public DataManager(RibotsService ribotsService, PreferencesHelper preferencesHelper,
-                       DatabaseHelper databaseHelper, WeatherService weatherService) {
+                       DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise) {
         mRibotsService = ribotsService;
         mPreferencesHelper = preferencesHelper;
         mDatabaseHelper = databaseHelper;
         mWeatherService = weatherService;
+        mExampleServise = exampleServise;
 
     }
 
@@ -54,11 +59,19 @@ public class DataManager {
 
 
         return
-
                 mWeatherService.getWeather().map(new Func1<Weather, String>() {
                     @Override
                     public String call(Weather weather) {
                         return weather.getCurrentObservation().getTempC().toString();
+                    }
+                });
+    }
+    public Observable<List<Talk>> getExample(String page) {
+        return
+                mExampleServise.getExample(page).map(new Func1<Example, List<Talk>>() {
+                    @Override
+                    public List<Talk> call(Example example) {
+                        return example.getTalks();
                     }
                 });
     }
