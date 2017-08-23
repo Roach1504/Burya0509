@@ -12,6 +12,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
+import uk.co.ribot.androidboilerplate.data.model.RegistRespons;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
 import uk.co.ribot.androidboilerplate.data.model.Talk;
 import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
@@ -64,34 +65,42 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                             getMvpView().showRibotsEmpty();
                         } else {
                             getMvpView().showRibots(ribots);
-                            loadTest("2");
+                            loadTest("LoginTest", "PassTest","NameTest", "FamilyTest", "CityTest", "00000000");
                         }
                     }
                 });
     }
-    public void loadTest(String page){
+    public void loadTest(String login, String pass, String name
+            , String family
+            , String city
+            , String tel){
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getExample(page)
+        mSubscription = mDataManager.getRegist(login, pass, name
+                , family
+                , city
+                , tel)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Talk>>() {
+                .subscribe(new Subscriber<RegistRespons>() {
                     @Override
                     public void onCompleted() {
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("error",e.getMessage()+" ||| ");
                         Timber.e(e, "There was an error loading the ribots.");
+
                         getMvpView().showError();
                     }
 
                     @Override
-                    public void onNext(List<Talk> ribots) {
-                        if (ribots.isEmpty()) {
+                    public void onNext(RegistRespons respons) {
+                        if (respons.getId().isEmpty()) {
                             Log.e("TEST", "0000");
 
                         } else {
-                            Log.e("TEST", ribots.get(0).getTalk().getName());
+                            Log.e("TEST", "id = "+respons.getId() + " status: "+ respons.getStatus());
                         }
                     }
                 });

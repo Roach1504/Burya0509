@@ -11,6 +11,7 @@ import uk.co.ribot.androidboilerplate.data.SyncService;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
+import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
 import uk.co.ribot.androidboilerplate.injection.ApplicationContext;
@@ -32,5 +33,6 @@ public interface ApplicationComponent {
     RxEventBus eventBus();
     WeatherService newWeatherService();
     ExampleServise newExampleService();
+    RegistServise newRegistServise();
 
 }

@@ -1,5 +1,8 @@
 package uk.co.ribot.androidboilerplate.data;
 
+import android.util.Log;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,10 +13,13 @@ import rx.functions.Func1;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
 import uk.co.ribot.androidboilerplate.data.model.Example;
+import uk.co.ribot.androidboilerplate.data.model.RegistModel;
+import uk.co.ribot.androidboilerplate.data.model.RegistRespons;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
 import uk.co.ribot.androidboilerplate.data.model.Talk;
 import uk.co.ribot.androidboilerplate.data.model.Weather;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
+import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
 
@@ -25,15 +31,17 @@ public class DataManager {
     private final PreferencesHelper mPreferencesHelper;
     private final WeatherService mWeatherService;
     private final ExampleServise mExampleServise;
+    private final RegistServise mRegistServise;
 
     @Inject
     public DataManager(RibotsService ribotsService, PreferencesHelper preferencesHelper,
-                       DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise) {
+                       DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise, RegistServise registServise) {
         mRibotsService = ribotsService;
         mPreferencesHelper = preferencesHelper;
         mDatabaseHelper = databaseHelper;
         mWeatherService = weatherService;
         mExampleServise = exampleServise;
+        mRegistServise = registServise;
 
     }
 
@@ -56,8 +64,6 @@ public class DataManager {
     }
 
     public Observable<String> getWeather() {
-
-
         return
                 mWeatherService.getWeather().map(new Func1<Weather, String>() {
                     @Override
@@ -66,6 +72,7 @@ public class DataManager {
                     }
                 });
     }
+
     public Observable<List<Talk>> getExample(String page) {
         return
                 mExampleServise.getExample(page).map(new Func1<Example, List<Talk>>() {
@@ -75,4 +82,24 @@ public class DataManager {
                     }
                 });
     }
+
+    public Observable<RegistRespons> getRegist(String login, String pass, String name
+            , String family
+            , String city
+            , String tel)
+    {
+        return
+                mRegistServise.getRegist(login, pass, name
+                        , family
+                        , city
+                        , tel).map(new Func1<RegistModel, RegistRespons>() {
+                    @Override
+                    public RegistRespons call(RegistModel registModel) {
+                        return registModel.getRespons();
+                    }
+                });
+    }
+
+
+
 }
