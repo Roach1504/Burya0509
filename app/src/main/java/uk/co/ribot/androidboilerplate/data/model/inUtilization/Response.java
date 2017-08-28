@@ -1,7 +1,9 @@
-package uk.co.ribot.androidboilerplate.data.model;
+package uk.co.ribot.androidboilerplate.data.model.inUtilization;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Features;
 
 public class Response {
 

@@ -8,7 +8,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import rx.Observable;
-import uk.co.ribot.androidboilerplate.data.model.Weather;
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Weather;
 
 
 public interface WeatherService {

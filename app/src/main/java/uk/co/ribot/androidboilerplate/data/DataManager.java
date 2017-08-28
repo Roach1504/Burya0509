@@ -1,8 +1,5 @@
 package uk.co.ribot.androidboilerplate.data;
 
-import android.util.Log;
-
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,12 +9,14 @@ import rx.Observable;
 import rx.functions.Func1;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
-import uk.co.ribot.androidboilerplate.data.model.Example;
+import uk.co.ribot.androidboilerplate.data.model.CreadNewModel;
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Example;
 import uk.co.ribot.androidboilerplate.data.model.RegistModel;
 import uk.co.ribot.androidboilerplate.data.model.RegistRespons;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
-import uk.co.ribot.androidboilerplate.data.model.Talk;
-import uk.co.ribot.androidboilerplate.data.model.Weather;
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Talk;
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Weather;
+import uk.co.ribot.androidboilerplate.data.remote.CreadNewsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
 import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
@@ -32,22 +31,27 @@ public class DataManager {
     private final WeatherService mWeatherService;
     private final ExampleServise mExampleServise;
     private final RegistServise mRegistServise;
+    private final CreadNewsServise mCreadNewsServise;
 
     @Inject
     public DataManager(RibotsService ribotsService, PreferencesHelper preferencesHelper,
-                       DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise, RegistServise registServise) {
+                       DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise, RegistServise registServise, CreadNewsServise creadNewsServise) {
         mRibotsService = ribotsService;
         mPreferencesHelper = preferencesHelper;
         mDatabaseHelper = databaseHelper;
         mWeatherService = weatherService;
         mExampleServise = exampleServise;
         mRegistServise = registServise;
+        mCreadNewsServise = creadNewsServise;
+        // TODO: 28.08.2017 удалить лишнии параметры
 
     }
 
     public PreferencesHelper getPreferencesHelper() {
         return mPreferencesHelper;
     }
+
+    //--------------------всё что ниже то не надо----------------------------------------------------------
 
     public Observable<Ribot> syncRibots() {
         return mRibotsService.getRibots()
@@ -83,11 +87,14 @@ public class DataManager {
                 });
     }
 
+
+    //--------------------всё что выше то не надо----------------------------------------------------------
+
+
     public Observable<RegistRespons> getRegist(String login, String pass, String name
             , String family
             , String city
-            , String tel)
-    {
+            , String tel) {
         return
                 mRegistServise.getRegist(login, pass, name
                         , family
@@ -100,6 +107,20 @@ public class DataManager {
                 });
     }
 
+    public Observable<CreadNewModel> getCreadNew(String title, String shorts, String text
+            , String date
+            , String id) {
+        return
+                mCreadNewsServise.getCreadNew(title
+                        , shorts
+                        , text
+                        , date
+                        , id).map(new Func1<CreadNewModel, CreadNewModel>() {
+                    @Override
+                    public CreadNewModel call(CreadNewModel creadNewModel) {
+                        return creadNewModel;
+                    }
+                });
 
-
+    }
 }

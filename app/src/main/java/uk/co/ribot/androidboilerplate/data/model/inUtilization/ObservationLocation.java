@@ -1,9 +1,9 @@
-package uk.co.ribot.androidboilerplate.data.model;
+package uk.co.ribot.androidboilerplate.data.model.inUtilization;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DisplayLocation {
+public class ObservationLocation {
 
     @SerializedName("full")
     @Expose
@@ -14,24 +14,12 @@ public class DisplayLocation {
     @SerializedName("state")
     @Expose
     private String state;
-    @SerializedName("state_name")
-    @Expose
-    private String stateName;
     @SerializedName("country")
     @Expose
     private String country;
     @SerializedName("country_iso3166")
     @Expose
     private String countryIso3166;
-    @SerializedName("zip")
-    @Expose
-    private String zip;
-    @SerializedName("magic")
-    @Expose
-    private String magic;
-    @SerializedName("wmo")
-    @Expose
-    private String wmo;
     @SerializedName("latitude")
     @Expose
     private String latitude;
@@ -66,14 +54,6 @@ public class DisplayLocation {
         this.state = state;
     }
 
-    public String getStateName() {
-        return stateName;
-    }
-
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -88,30 +68,6 @@ public class DisplayLocation {
 
     public void setCountryIso3166(String countryIso3166) {
         this.countryIso3166 = countryIso3166;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getMagic() {
-        return magic;
-    }
-
-    public void setMagic(String magic) {
-        this.magic = magic;
-    }
-
-    public String getWmo() {
-        return wmo;
-    }
-
-    public void setWmo(String wmo) {
-        this.wmo = wmo;
     }
 
     public String getLatitude() {

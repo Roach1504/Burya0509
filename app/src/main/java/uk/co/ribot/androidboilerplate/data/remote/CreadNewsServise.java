@@ -10,23 +10,23 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
-
+import uk.co.ribot.androidboilerplate.data.model.CreadNewModel;
 import uk.co.ribot.androidboilerplate.data.model.RegistModel;
 
 
-
-public interface RegistServise {
+public interface CreadNewsServise {
     String ENDPOINT = "http://9834436605.myjino.ru";
-    @POST("/api/sign-up")
-    Observable<RegistModel> getRegist(@Query("login") String login, @Query("pass") String pass, @Query("name") String name
-            ,@Query("family") String family
-            ,@Query("city") String city
-            ,@Query("tel") String tel);
+    @POST("/api/add-post")
+    Observable<CreadNewModel> getCreadNew(@Query("title") String title, @Query("short") String shorts, @Query("text") String text
+            , @Query("date") String date
+            , @Query("id") String id);
+            //, @Query("tel") String tel);
+    // TODO: 28.08.2017 Закрепить загрузку файлов
 
 
     /******** Helper class that sets up a new services *******/
     class Creator {
-        public static RegistServise newRegistServise() {
+        public static CreadNewsServise newCreadNewsServise() {
             Gson gson = new GsonBuilder()
                     .create();
             Retrofit retrofit = new Retrofit.Builder()
@@ -34,7 +34,7 @@ public interface RegistServise {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            return retrofit.create(RegistServise.class);
+            return retrofit.create(CreadNewsServise.class);
         }
     }
 }
