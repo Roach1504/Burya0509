@@ -15,11 +15,14 @@ public class RegistFragment extends BaseFragment implements RegistMvpView {
 
     @Override
     public void showResponsServer(String status) {
+
+
         //отобразить результат регистрайции, вернёт либо что успешна, либо почему хуйня, типа логин занет и т.п.
     }
 
     @Override
     public void showError() {
+
         //сработает тогда когда будет ошибка отправки запроса, типа сервак отвалился и т.п
     }
 }

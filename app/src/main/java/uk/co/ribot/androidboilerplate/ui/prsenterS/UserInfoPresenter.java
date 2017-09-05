@@ -1,8 +1,7 @@
-package uk.co.ribot.androidboilerplate.ui.main;
+package uk.co.ribot.androidboilerplate.ui.prsenterS;
+
 
 import android.util.Log;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,28 +11,22 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
-import uk.co.ribot.androidboilerplate.data.model.CreadNewModel;
-import uk.co.ribot.androidboilerplate.data.model.ItemNewList;
-import uk.co.ribot.androidboilerplate.data.model.NewsModel;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
 import uk.co.ribot.androidboilerplate.data.model.UserInfo;
-import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
+
+import uk.co.ribot.androidboilerplate.ui.UserInfoFragment.UserInfoMvpView;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
 
-@ConfigPersistent
-public class MainPresenter extends BasePresenter<MainMvpView> {
-
+public class UserInfoPresenter extends BasePresenter<UserInfoMvpView> {
     private final DataManager mDataManager;
     private Subscription mSubscription;
 
     @Inject
-    public MainPresenter(DataManager dataManager) {
-        mDataManager = dataManager;
+    public UserInfoPresenter(DataManager mDataManager) {
+        this.mDataManager = mDataManager;
     }
-
     @Override
-    public void attachView(MainMvpView mvpView) {
+    public void attachView(UserInfoMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -43,13 +36,13 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadRibots() {
+    public void userInfo(String id) {
         checkViewAttached();
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRibots()
+        mSubscription = mDataManager.getUserInfo(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Ribot>>() {
+                .subscribe(new Subscriber<UserInfo>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -61,19 +54,16 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                     }
 
                     @Override
-                    public void onNext(List<Ribot> ribots) {
-                        if (ribots.isEmpty()) {
-                            getMvpView().showRibotsEmpty();
+                    public void onNext(UserInfo info) {
+                        if (info == null) {
+                            getMvpView().showError();
                         } else {
-                            getMvpView().showRibots(ribots);
-                            //testUserInfo("1");
-                          // creadNew("Test2", "Test2","Test2", "26.08.17", "2");
+                            Log.e("Test", "News: "+info.getName() +" "+ info.getFamily());
+                            getMvpView().showUserInfo(info);
+                            // creadNew("Test2", "Test2","Test2", "26.08.17", "2");
                         }
                     }
                 });
     }
-
-
-
 
 }

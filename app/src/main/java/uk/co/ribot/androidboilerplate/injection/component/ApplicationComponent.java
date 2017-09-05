@@ -12,8 +12,10 @@ import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
 import uk.co.ribot.androidboilerplate.data.remote.CreadNewsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
+import uk.co.ribot.androidboilerplate.data.remote.ListNewServise;
 import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
+import uk.co.ribot.androidboilerplate.data.remote.UserInfoServese;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
 import uk.co.ribot.androidboilerplate.injection.ApplicationContext;
 import uk.co.ribot.androidboilerplate.injection.module.ApplicationModule;
@@ -36,5 +38,7 @@ public interface ApplicationComponent {
     ExampleServise newExampleService();
     RegistServise newRegistServise();
     CreadNewsServise newCreadNewsServise();
+    ListNewServise newListNewServise();
+    UserInfoServese userInfoServese();
 
 }

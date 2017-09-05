@@ -9,8 +9,10 @@ import dagger.Module;
 import dagger.Provides;
 import uk.co.ribot.androidboilerplate.data.remote.CreadNewsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
+import uk.co.ribot.androidboilerplate.data.remote.ListNewServise;
 import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
+import uk.co.ribot.androidboilerplate.data.remote.UserInfoServese;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
 import uk.co.ribot.androidboilerplate.injection.ApplicationContext;
 
@@ -60,10 +62,22 @@ public class ApplicationModule {
     RegistServise newRegistServise() {
         return RegistServise.Creator.newRegistServise();
     }
+
     @Provides
     @Singleton
     CreadNewsServise newCreadNewsServise() {
         return CreadNewsServise.Creator.newCreadNewsServise();
+    }
+
+    @Provides
+    @Singleton
+    ListNewServise newListNewServise() {
+        return ListNewServise.Creator.newListNewServise();
+    }
+    @Provides
+    @Singleton
+    UserInfoServese userInfoServese() {
+        return UserInfoServese.Creator.userInfoServese();
     }
 
 }

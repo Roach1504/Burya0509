@@ -1,6 +1,9 @@
 package uk.co.ribot.androidboilerplate.data.remote;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -8,16 +11,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
-import uk.co.ribot.androidboilerplate.data.model.AddViewNewModel;
+import uk.co.ribot.androidboilerplate.data.model.ItemNewList;
+import uk.co.ribot.androidboilerplate.data.model.NewsModel;
+import uk.co.ribot.androidboilerplate.data.model.RegistModel;
 
-public interface AddViewNew {
+
+public interface ListNewServise {
     String ENDPOINT = "http://9834436605.myjino.ru";
-    @POST("/api/set-mark")
-    Observable<AddViewNewModel> getAddViewNew(@Query("id") String id, @Query("post_id") String post_id);
-
-    /******** Helper class that sets up a new services *******/
+    @POST("/api/sign-up")
+    Observable<ItemNewList> getNews(@Query("limit") String limit, @Query("offset") String offset);
     class Creator {
-        public static AddViewNew newAddViewNew() {
+        public static ListNewServise newListNewServise() {
             Gson gson = new GsonBuilder()
                     .create();
             Retrofit retrofit = new Retrofit.Builder()
@@ -25,7 +29,7 @@ public interface AddViewNew {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            return retrofit.create(AddViewNew.class);
+            return retrofit.create(ListNewServise.class);
         }
     }
 }
