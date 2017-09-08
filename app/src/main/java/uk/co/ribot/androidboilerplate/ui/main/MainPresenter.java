@@ -12,11 +12,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
-import uk.co.ribot.androidboilerplate.data.model.CreadNewModel;
-import uk.co.ribot.androidboilerplate.data.model.ItemNewList;
-import uk.co.ribot.androidboilerplate.data.model.NewsModel;
+import uk.co.ribot.androidboilerplate.data.model.Message;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
-import uk.co.ribot.androidboilerplate.data.model.UserInfo;
 import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
@@ -66,14 +63,41 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                             getMvpView().showRibotsEmpty();
                         } else {
                             getMvpView().showRibots(ribots);
-                            //testUserInfo("1");
-                          // creadNew("Test2", "Test2","Test2", "26.08.17", "2");
+                            loadMessages();
                         }
                     }
                 });
     }
 
+    public void loadMessages() {
+        checkViewAttached();
+        RxUtil.unsubscribe(mSubscription);
+        mSubscription = mDataManager.getMessage("2")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<Message>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "There was an error loading the ribots.");
+                        getMvpView().showError();
+                    }
 
+                    @Override
+                    public void onNext(List<Message> ribots) {
+                        if (ribots.isEmpty()) {
+                            getMvpView().showRibotsEmpty();
+                        } else {
+                            //getMvpView().showRibots(ribots);
+                            for (Message i : ribots) {
+                                Log.e("News", i.getText() + " ");
+                            }
+                        }
+                    }
+                });
+    }
 
 }

@@ -10,18 +10,23 @@ import rx.functions.Func1;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
 import uk.co.ribot.androidboilerplate.data.model.CreadNewModel;
-import uk.co.ribot.androidboilerplate.data.model.ItemNewList;
+import uk.co.ribot.androidboilerplate.data.model.Message;
+import uk.co.ribot.androidboilerplate.data.model.MessageModel;
+import uk.co.ribot.androidboilerplate.data.model.News;
 import uk.co.ribot.androidboilerplate.data.model.NewsModel;
-import uk.co.ribot.androidboilerplate.data.model.UserInfo;
-import uk.co.ribot.androidboilerplate.data.model.inUtilization.Example;
 import uk.co.ribot.androidboilerplate.data.model.RegistModel;
 import uk.co.ribot.androidboilerplate.data.model.RegistRespons;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.model.UserInfo;
+import uk.co.ribot.androidboilerplate.data.model.inUtilization.Example;
 import uk.co.ribot.androidboilerplate.data.model.inUtilization.Talk;
 import uk.co.ribot.androidboilerplate.data.model.inUtilization.Weather;
+import uk.co.ribot.androidboilerplate.data.remote.AvtorizationServise;
 import uk.co.ribot.androidboilerplate.data.remote.CreadNewsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
 import uk.co.ribot.androidboilerplate.data.remote.ListNewServise;
+import uk.co.ribot.androidboilerplate.data.remote.MessageServise;
+import uk.co.ribot.androidboilerplate.data.remote.NewsListServise;
 import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
 import uk.co.ribot.androidboilerplate.data.remote.UserInfoServese;
@@ -39,12 +44,15 @@ public class DataManager {
     private final CreadNewsServise mCreadNewsServise;
     private final ListNewServise mListNewServise;
     private final UserInfoServese mUserInfoServese;
+    private final AvtorizationServise mAvtorizationServise;
+    private final NewsListServise mNewsListServise;
+    private final MessageServise mMessageServise;
 
 
     @Inject
     public DataManager(RibotsService ribotsService, PreferencesHelper preferencesHelper,
                        DatabaseHelper databaseHelper, WeatherService weatherService, ExampleServise exampleServise, RegistServise registServise, CreadNewsServise creadNewsServise,
-                       ListNewServise listNewServise, UserInfoServese userInfoServese) {
+                       ListNewServise listNewServise, UserInfoServese userInfoServese, AvtorizationServise avtorizationServise, NewsListServise newsListServise, MessageServise messageServise) {
         mRibotsService = ribotsService;
         mPreferencesHelper = preferencesHelper;
         mDatabaseHelper = databaseHelper;
@@ -54,6 +62,9 @@ public class DataManager {
         mCreadNewsServise = creadNewsServise;
         mListNewServise = listNewServise;
         mUserInfoServese = userInfoServese;
+        mAvtorizationServise = avtorizationServise;
+        mNewsListServise = newsListServise;
+        mMessageServise = messageServise;
         // TODO: 28.08.2017 удалить лишнии параметры
 
     }
@@ -73,6 +84,7 @@ public class DataManager {
                     }
                 });
     }
+
 
     public Observable<List<Ribot>> getRibots() {
         return mDatabaseHelper.getRibots().distinct();
@@ -101,6 +113,14 @@ public class DataManager {
 
     //--------------------всё что выше то не надо----------------------------------------------------------
 
+    public void addID(String id) {
+        mDatabaseHelper.setUSER(id);
+    }
+
+    public String getUserID() {
+        return mDatabaseHelper.getUSER();
+    }
+
 
     public Observable<RegistRespons> getRegist(String login, String pass, String name
             , String family
@@ -117,6 +137,7 @@ public class DataManager {
                     }
                 });
     }
+
 
     public Observable<CreadNewModel> getCreadNew(String title, String shorts, String text
             , String date
@@ -135,19 +156,8 @@ public class DataManager {
 
     }
 
-    public Observable<ItemNewList> getNewsModel(String limit, String offset) {
-        return
-                mListNewServise.getNews(limit
-                        , offset).map(new Func1<ItemNewList,ItemNewList>() {
-                    @Override
-                    public ItemNewList call(ItemNewList itemNews) {
-                        return itemNews;
-                    }
-                });
 
-    }
-
-    public Observable<UserInfo> getUserInfo (String id){
+    public Observable<UserInfo> getUserInfo(String id) {
         return
                 mUserInfoServese.getUserInfo(id).map(new Func1<UserInfo, UserInfo>() {
                     @Override
@@ -158,6 +168,36 @@ public class DataManager {
 
     }
 
+    public Observable<RegistRespons> getAvtoriz(String log, String pass) {
+        return
+                mAvtorizationServise.getAvtoriz(log, pass).map(new Func1<RegistModel, RegistRespons>() {
+                    @Override
+                    public RegistRespons call(RegistModel registModel) {
+                        return registModel.getRespons();
+                    }
+                });
+    }
 
+    public Observable<List<News>> getNews(String limit, String offset) {
+        return
+                mListNewServise.getNews(limit, offset).map(new Func1<NewsModel, List<News>>() {
+                    @Override
+                    public List<News> call(NewsModel newsModel) {
+                        return newsModel.getNews();
+                    }
+                });
+
+    }
+
+    public Observable<List<Message>> getMessage(String id) {
+        return
+                mMessageServise.getMessage(id).map(new Func1<MessageModel, List<Message>>() {
+                    @Override
+                    public List<Message> call(MessageModel messageModel) {
+                        return messageModel.getMessages();
+                    }
+                });
+
+    }
 
 }

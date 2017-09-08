@@ -1,4 +1,4 @@
-package uk.co.ribot.androidboilerplate.data;
+package uk.co.ribot.androidboilerplate.data.remote;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -6,22 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
-import rx.Observer;
 import rx.Subscription;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.BoilerplateApplication;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.data.DataManager;
+import uk.co.ribot.androidboilerplate.data.SyncService;
 import uk.co.ribot.androidboilerplate.util.AndroidComponentUtil;
 import uk.co.ribot.androidboilerplate.util.NetworkUtil;
-import uk.co.ribot.androidboilerplate.util.RxUtil;
 
-public class SyncService extends Service {
 
-    @Inject DataManager mDataManager;
+public class UserService extends Service {
+    @Inject
+    DataManager mDataManager;
     private Subscription mSubscription;
 
     public static Intent getStartIntent(Context context) {
@@ -44,32 +44,32 @@ public class SyncService extends Service {
 
         if (!NetworkUtil.isNetworkConnected(this)) {
             Timber.i("Sync canceled, connection not available");
-            AndroidComponentUtil.toggleComponent(this, SyncOnConnectionAvailable.class, true);
+            AndroidComponentUtil.toggleComponent(this, SyncService.SyncOnConnectionAvailable.class, true);
             stopSelf(startId);
             return START_NOT_STICKY;
         }
 
-        RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.syncRibots()
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Ribot>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.i("Synced successfully!");
-                        stopSelf(startId);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.w(e, "Error syncing.");
-                        stopSelf(startId);
-
-                    }
-
-                    @Override
-                    public void onNext(Ribot ribot) {
-                    }
-                });
+//        RxUtil.unsubscribe(mSubscription);
+//        mSubscription = mDataManager.syncUSER("54321","54321")
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<RegistModel>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Timber.i("Synced successfully!");
+//                        stopSelf(startId);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Timber.w(e, "Error syncing.");
+//                        stopSelf(startId);
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(RegistModel ribot) {
+//                    }
+//                });
 
 
         return START_STICKY;
@@ -81,6 +81,8 @@ public class SyncService extends Service {
         super.onDestroy();
     }
 
+
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -98,5 +100,4 @@ public class SyncService extends Service {
             }
         }
     }
-
 }

@@ -7,16 +7,15 @@ import java.util.List;
 
 
 public class NewsModel {
-    @SerializedName("")
-    // TODO: 05.09.2017  передать параметр, переписать презентр, уточнить у Данила 
+    @SerializedName("news")
     @Expose
-private List<ItemNewList> news = null;
+    private List<News> news = null;
 
-    public List<ItemNewList> getNews() {
+    public List<News> getNews() {
         return news;
     }
 
-    public void setNews(List<ItemNewList> news) {
+    public void setNews(List<News> news) {
         this.news = news;
     }
 

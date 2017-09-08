@@ -15,5 +15,6 @@ public class UserInfoFragment extends BaseFragment implements UserInfoMvpView {
     @Override
     public void showError() {
 
+
     }
 }

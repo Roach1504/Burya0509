@@ -1,7 +1,9 @@
 package uk.co.ribot.androidboilerplate.data.local;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -66,5 +68,29 @@ public class DatabaseHelper {
                     }
                 });
     }
+
+    public String getUSER() {
+        String ret = null;
+        Cursor cursor = mDb.query(Db.RibotProfileTable.TABLE_USER, null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            int keyID = cursor.getColumnIndex(Db.RibotProfileTable.USER_ID);
+            do {
+                Log.e("ID in DB", "id=" + cursor.getColumnName(keyID));
+                ret = cursor.getColumnName(keyID);
+                return ret;
+            }
+            while (cursor.moveToNext());
+        }
+        return ret;
+    }
+
+    public void setUSER(String id) {
+        //mDb.delete(Db.RibotProfileTable.TABLE_USER, null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Db.RibotProfileTable.USER_ID, id);
+        mDb.insert(Db.RibotProfileTable.TABLE_USER, contentValues);
+        Log.e("test", getUSER());
+    }
+
 
 }

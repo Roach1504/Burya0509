@@ -33,6 +33,11 @@ public class Db {
                         COLUMN_AVATAR + " TEXT, " +
                         COLUMN_BIO + " TEXT" +
                 " ); ";
+        public static final String TABLE_USER = "user";
+        public static final String USER_ID = "id";
+        public static final String CREATE_USER =
+                "CREATE TABLE " + TABLE_USER + " (" +
+                        USER_ID + " TEXT" + " ); ";
 
         public static ContentValues toContentValues(Profile profile) {
             ContentValues values = new ContentValues();
@@ -61,5 +66,16 @@ public class Db {
                     .setBio(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_BIO)))
                     .build();
         }
+
+        public static ContentValues isnertUser(String id) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(USER_ID, id);
+            return contentValues;
+        }
+
+        public static String getUserId(Cursor cursor) {
+            return cursor.getString(cursor.getColumnIndexOrThrow(USER_ID));
+        }
+
     }
 }

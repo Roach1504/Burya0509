@@ -2,13 +2,13 @@ package uk.co.ribot.androidboilerplate.ui.NewsFragment;
 
 import java.util.List;
 
-import uk.co.ribot.androidboilerplate.data.model.ItemNewList;
+import uk.co.ribot.androidboilerplate.data.model.News;
+import uk.co.ribot.androidboilerplate.ui.base.MvpView;
 
 
+public interface NewsMvpView extends MvpView {
 
-public interface NewsMvpView {
-
-    void showNewsServer(List<ItemNewList> news);
+    void showNews(List<News> news);
 
     void showError();
 

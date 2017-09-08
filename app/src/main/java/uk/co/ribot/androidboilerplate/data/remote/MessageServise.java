@@ -1,5 +1,6 @@
 package uk.co.ribot.androidboilerplate.data.remote;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,16 +10,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
-import uk.co.ribot.androidboilerplate.data.model.NewsModel;
+import uk.co.ribot.androidboilerplate.data.model.MessageModel;
 
 
-public interface ListNewServise {
+public interface MessageServise {
     String ENDPOINT = "http://9834436605.myjino.ru";
 
-    @POST("/api/get-posts")
-    Observable<NewsModel> getNews(@Query("limit") String limit, @Query("offset") String offset);
+    @POST("/api/get-messages")
+    Observable<MessageModel> getMessage(@Query("id") String id);
+
+
+    /******** Helper class that sets up a new services *******/
     class Creator {
-        public static ListNewServise newListNewServise() {
+        public static MessageServise messageServise() {
             Gson gson = new GsonBuilder()
                     .create();
             Retrofit retrofit = new Retrofit.Builder()
@@ -26,7 +30,7 @@ public interface ListNewServise {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            return retrofit.create(ListNewServise.class);
+            return retrofit.create(MessageServise.class);
         }
     }
 }
