@@ -1,4 +1,5 @@
-package uk.co.ribot.androidboilerplate.ui.main;
+package uk.co.ribot.androidboilerplate.ui.prsenterS;
+
 
 import android.util.Log;
 
@@ -13,24 +14,21 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.ribot.androidboilerplate.data.DataManager;
 import uk.co.ribot.androidboilerplate.data.model.Message;
-import uk.co.ribot.androidboilerplate.data.model.Ribot;
-import uk.co.ribot.androidboilerplate.injection.ConfigPersistent;
+import uk.co.ribot.androidboilerplate.ui.MessagerListFragment.MessagerListMvpView;
 import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 import uk.co.ribot.androidboilerplate.util.RxUtil;
 
-@ConfigPersistent
-public class MainPresenter extends BasePresenter<MainMvpView> {
-
+public class MessagerListPresenter extends BasePresenter<MessagerListMvpView> {
     private final DataManager mDataManager;
     private Subscription mSubscription;
 
     @Inject
-    public MainPresenter(DataManager dataManager) {
+    public MessagerListPresenter(DataManager dataManager) {
         mDataManager = dataManager;
     }
 
     @Override
-    public void attachView(MainMvpView mvpView) {
+    public void attachView(MessagerListMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -40,39 +38,11 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void loadRibots() {
+
+    public void loadMessages(String id) {
         checkViewAttached();
         RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getRibots()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<Ribot>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e, "There was an error loading the ribots.");
-                        getMvpView().showError();
-                    }
-
-                    @Override
-                    public void onNext(List<Ribot> ribots) {
-                        if (ribots.isEmpty()) {
-                            getMvpView().showRibotsEmpty();
-                        } else {
-                            getMvpView().showRibots(ribots);
-                            //loadMessages();
-                        }
-                    }
-                });
-    }
-
-    public void loadMessages() {
-        checkViewAttached();
-        RxUtil.unsubscribe(mSubscription);
-        mSubscription = mDataManager.getMessage("2")
+        mSubscription = mDataManager.getMessage(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<Message>>() {
@@ -89,9 +59,9 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                     @Override
                     public void onNext(List<Message> ribots) {
                         if (ribots.isEmpty()) {
-                            getMvpView().showRibotsEmpty();
+                            getMvpView().showMessageEmpty();
                         } else {
-                            //getMvpView().showRibots(ribots);
+                            getMvpView().showMessageList(ribots);
                             for (Message i : ribots) {
                                 Log.e("News", i.getText() + " ");
                             }
