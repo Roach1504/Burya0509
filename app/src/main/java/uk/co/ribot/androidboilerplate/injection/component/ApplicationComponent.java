@@ -10,14 +10,17 @@ import uk.co.ribot.androidboilerplate.data.DataManager;
 import uk.co.ribot.androidboilerplate.data.SyncService;
 import uk.co.ribot.androidboilerplate.data.local.DatabaseHelper;
 import uk.co.ribot.androidboilerplate.data.local.PreferencesHelper;
+import uk.co.ribot.androidboilerplate.data.remote.AddCommentServise;
 import uk.co.ribot.androidboilerplate.data.remote.AvtorizationServise;
 import uk.co.ribot.androidboilerplate.data.remote.CreadNewsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ExampleServise;
+import uk.co.ribot.androidboilerplate.data.remote.ListCommentsServise;
 import uk.co.ribot.androidboilerplate.data.remote.ListNewServise;
 import uk.co.ribot.androidboilerplate.data.remote.MessageServise;
 import uk.co.ribot.androidboilerplate.data.remote.NewsListServise;
 import uk.co.ribot.androidboilerplate.data.remote.RegistServise;
 import uk.co.ribot.androidboilerplate.data.remote.RibotsService;
+import uk.co.ribot.androidboilerplate.data.remote.SendMessageServise;
 import uk.co.ribot.androidboilerplate.data.remote.UserInfoServese;
 import uk.co.ribot.androidboilerplate.data.remote.UserService;
 import uk.co.ribot.androidboilerplate.data.remote.WeatherService;
@@ -52,6 +55,12 @@ public interface ApplicationComponent {
     NewsListServise newsListServise();
 
     MessageServise messageServise();
+
+    ListCommentsServise listCommentsServise();
+
+    AddCommentServise addCommentServise();
+
+    SendMessageServise sendMessageServise();
 
 
 }
