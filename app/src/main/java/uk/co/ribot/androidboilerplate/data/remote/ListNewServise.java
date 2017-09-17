@@ -13,9 +13,9 @@ import uk.co.ribot.androidboilerplate.data.model.NewsModel;
 
 
 public interface ListNewServise {
-    String ENDPOINT = "http://9834436605.myjino.ru";
+    String ENDPOINT = "http://9834436605.myjino.ru/";
 
-    @POST("/api/get-posts")
+    @POST("api/get-posts")
     Observable<NewsModel> getNews(@Query("limit") String limit, @Query("offset") String offset);
     class Creator {
         public static ListNewServise newListNewServise() {

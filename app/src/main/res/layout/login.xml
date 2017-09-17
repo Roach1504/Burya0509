@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/LoginTheme">
+    android:theme="@style/AppTheme">
 
     <LinearLayout
         android:id="@+id/toolbarLayout"
@@ -16,15 +16,15 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/LoginTheme"
+            style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="5"
             android:background="?attr/colorPrimary"
             app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
             app:popupTheme="@style/LoginTheme"
-            app:subtitleTextColor="@color/blue"
-            app:theme="@style/LoginTheme" />
+            app:subtitleTextColor="@color/common_google_signin_btn_text_dark_default"
+            app:theme="@style/AppTheme" />
 
         <TextView
             android:id="@+id/buttonCreate"
@@ -34,56 +34,43 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@color/white"
+            android:background="@color/primary"
             android:clickable="true"
             android:gravity="center_vertical"
             android:paddingRight="24dp"
             android:text="cоздать"
-            android:textColor="@color/blue"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="18dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/mail"
-        android:layout_alignStart="@+id/mail"
-        android:layout_below="@+id/toolbarLayout"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="16dp"
-        android:text="Электронная почта" />
+
 
     <EditText
-        android:id="@+id/mail"
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginLeft="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
-        android:inputType="textEmailAddress" />
+        android:hint="Логин"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/toolbarLayout"
+        />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:layout_below="@+id/mail"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="10dp"
-        android:text="Пароль" />
+
 
     <EditText
         android:id="@+id/pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/login"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="48dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:ems="10"
+        android:hint="Пароль"
+        android:layout_marginTop="24dp"
         android:inputType="textPassword" />
 
     <ImageView
@@ -101,14 +88,27 @@
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/buttonHelp"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignRight="@+id/buttonHelp"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_below="@+id/pass"
         android:background="@drawable/button_background"
         android:text="Войти"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_below="@+id/helpText"
+        android:layout_marginTop="24dp"
+        android:layout_alignLeft="@+id/helpText"
+        android:layout_alignStart="@+id/helpText"
+        android:layout_alignRight="@+id/buttonHelp"
+        android:layout_alignEnd="@+id/buttonHelp" />
+
+    <TextView
+        android:id="@+id/helpText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="32dp"
+        android:layout_below="@+id/pass"
+        android:text="INVISIBLE TEXT"
+
+        android:layout_alignRight="@+id/pass"
+        android:layout_alignEnd="@+id/pass" />
 
 
 </RelativeLayout>
